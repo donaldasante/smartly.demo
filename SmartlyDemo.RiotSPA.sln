@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartlyDemo.RiotSPA", "src\SmartlyDemo.RiotSPA.csproj", "{FF3C3692-1E27-45BE-A968-80D352A093C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartlyDemo.RiotSPA.Test", "tests\SmartlyDemo.RiotSPA.Test\SmartlyDemo.RiotSPA.Test.csproj", "{83C61B0D-324B-48E2-A4CD-C3507D1874B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF3C3692-1E27-45BE-A968-80D352A093C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF3C3692-1E27-45BE-A968-80D352A093C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF3C3692-1E27-45BE-A968-80D352A093C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF3C3692-1E27-45BE-A968-80D352A093C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83C61B0D-324B-48E2-A4CD-C3507D1874B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C61B0D-324B-48E2-A4CD-C3507D1874B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C61B0D-324B-48E2-A4CD-C3507D1874B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C61B0D-324B-48E2-A4CD-C3507D1874B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31D187D4-EF15-4D41-AFAB-6704ED97039C}
+	EndGlobalSection
+EndGlobal

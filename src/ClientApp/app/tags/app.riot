@@ -1,0 +1,69 @@
+<app>
+    <router>
+        <nav>
+            <h1 id="header">
+                <a href="/">Blog</a> |
+                <a href="/weather">Weather Forecast</a> | 
+                <a href="/admin">Admin</a>
+            </h1>        
+        </nav>
+
+        <route path="/">
+            <blog-roll></blog-roll>
+        </route>  
+
+        <route path="/weather">
+            <weather></weather>
+        </route>  
+
+        <route path="/admin">
+            <admin></admin>
+        </route>
+
+        <route path="/new">
+            <new></new>
+        </route>
+
+        <route path="/edit/:url">
+            <editor index={route.params.url}></editor>
+        </route>
+
+        <route path="/view/:url">
+            <post-display index={route.params.url}></post-display>
+        </route>
+    </router>
+    <script>
+        import {posts,storage} from '../plugins/storage-plugin.js';
+        import { install,mount, register, unmount } from 'riot';
+        import { setBase,Router, Route,router } from '@riotjs/route';
+        import Admin from './admin.riot';
+        import BlogRoll from './blog-roll.riot';
+        import Editor from './editor.riot';
+        import PostList from './post-list.riot';
+        import PostDisplay from './post-display.riot';
+        import Weather from './weather.riot';
+
+        export default { 
+
+            onBeforeMount() {
+                setBase('/');
+                register('route', Route);
+                register('router', Router);
+                register('admin', Admin);
+                register('blog-roll', BlogRoll);
+                register('editor', Editor);
+                register('new', Editor);
+                register('post-list', PostList);
+                register('post-display', PostDisplay);
+                register('weather', Weather);
+                
+                this.storage.init();
+
+                install(function(component) {
+                    component.router = router;
+                    return component;
+                })
+            }
+        }      
+    </script>
+</app>

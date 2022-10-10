@@ -1,0 +1,47 @@
+<post-display>
+    <div if={post && Object.keys(post).length > 0} class="post">
+      <h5><a href="/" >Back</a></h5>
+       <h3 class="post_title">
+         <p>{post.title}</p>        
+       </h3>
+       <div class="meta">
+         <p>
+           <small>by author </small> <span>{post.author}</span>
+         </p>
+         <p>
+         <small>category </small> <span>{post.category}</span>
+         </p>
+       </div>
+       <p>{post.content}</p>
+       </hr>
+    </div>
+    <style>
+        :host .post_title {
+            margin: 0;
+        }
+        :host .post {
+            margin-bottom: 15px;
+        }
+        :host .post_title a {
+            text-decoration: underline;
+            font-weight: 100;
+        }
+        :host .meta {
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #999;
+        }
+        :host .meta span {
+            font-weight: 500;
+        }
+    </style>
+
+  <script>
+    export default {
+
+        onBeforeMount() {
+            this.storage.getPost(this);
+        }
+    }
+  </script>
+</post-display>

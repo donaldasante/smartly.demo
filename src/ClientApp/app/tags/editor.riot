@@ -1,0 +1,79 @@
+<editor>
+    <form onsubmit={add_update_post}>
+        <input class="u-full-width" id="post_title" type="text" placeholder="Post Title" value={post.title} />
+        <div class="row">
+            <input class="six columns" id="post_author" type="text" placeholder="Author" value={post.author}/>
+            <input class="six columns" id="post_category" type="text" placeholder="Category" value={post.category} />
+        </div>
+        <textarea class="u-full-width" id="post_content" placeholder="Post Context">{post.content}</textarea>
+        <div class="row">
+            <button if={mode=="edit"} onclick={delete_post}>Delete Posts</button>
+            <input type="submit" class="button button-primary u-pull-right" value={props.url? 'Update': 'Publish'} />
+        </div>
+    </form>
+
+    <style scoped>
+        .title {
+            height: 75px;
+            font-size: 36px;
+        }
+        textarea {
+            height: 300px;
+            max-width: 100%;
+            min-width: 100%;
+        }
+    </style>
+
+    <script>
+        export default {
+            onBeforeMount(props,state) {
+                this.storage.getPost(this);
+
+                this.mode = "new";
+
+                if (!this.post)
+                {
+                    this.post = {title:"",author:"",category:"",content:"",url:"",excerpt:""};
+                }
+                else
+                {
+                    this.mode = "edit";
+                }
+            },   
+
+            delete_post : function(e) {
+                 e.preventDefault();    
+                if (confirm('Are you sure you want to permanently remove this post'))
+                {
+                    this.storage.delete(this.post);
+                    this.router.push('/');
+                }
+            },
+
+            add_update_post : function(e) {
+                e.preventDefault();
+                
+                this.post = {
+                    ...this.post,
+                    title: this.$('#post_title').value,
+                    author: this.$('#post_author').value,
+                    category: this.$('#post_category').value,
+                    content: this.$('#post_content').value,
+                    url: this.$('#post_title').value?.toLowerCase()?.split(' ')?.join('-'),
+                    excerpt: this.$('#post_content').value?.split(/\s+/)?.slice(0,30)?.join(' '),
+                };
+                
+                if (this.mode === "new") {
+                    this.storage.insert(this.post);
+                }
+                else
+                {
+                    this.storage.update(this.post);
+                }
+                
+                this.router.push('/');
+            }
+        }
+
+    </script>
+</editor>

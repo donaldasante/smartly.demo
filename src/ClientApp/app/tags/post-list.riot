@@ -1,0 +1,44 @@
+<post-list>
+    <div class="post">
+       <h3 class="post_title">
+         <a if={Object.keys(props.post).length > 0} href="/view/{props.post.index}">{props.post.title}</a>
+       </h3>
+       <div class="meta">
+         <p>
+           <small>by author </small> <span>{props.post.author}</span>           
+         </p>
+         <p>
+          <small>in category </small> <span>{props.post.category}</span>
+         </p>
+       </div>
+       <p>{props.excerpt?props.post.excerpt:""}</p>
+       </hr>
+    </div>
+    <style>
+        :host .post_title {
+            margin: 0;
+        }
+        :host .post {
+            margin-bottom: 15px;
+        }
+        :host .post_title a {
+            text-decoration: underline;
+            font-weight: 100;
+        }
+        :host .meta {
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #999;
+        }
+        :host .meta span {
+            font-weight: 500;
+        }
+    </style>
+
+  <script>
+    export default {
+        onBeforeMount() {
+        }
+    }
+  </script>
+</post-list>
