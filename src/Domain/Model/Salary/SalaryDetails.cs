@@ -27,7 +27,7 @@ namespace SmartlyDemo.RiotSPA.Domain.Model.Salary
             string monthOfTheYearStr)
         {
             if (grossAnnualSalary < 100) throw new ArgumentException("gross annual salary cannot be less than 100");
-            if (superRatePercentage < 0 || superRatePercentage > 50) throw new ArgumentException("super rate percentage should be between 0 and 50");
+            if (superRatePercentage < 0M || superRatePercentage > 0.5M) throw new ArgumentException("super rate percentage should be between 0 and 50");
             if (!monthOfTheYearStr.IsConvertibleToMonth() ) throw new ArgumentException("Invalid month. e.g. January, February");
 
             GrossAnnualSalary = grossAnnualSalary;

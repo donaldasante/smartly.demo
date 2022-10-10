@@ -27,50 +27,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="**\*" Exclude="bin\**;obj\**;.vs\**;wwwroot\**;ClientApp\public\**;ClientApp\node_modules\**;" />
-    <Compile Remove="**\*" />
+    <Content Include=".dockerignore" />
+    <Content Include=".gitignore" />
+    <Content Include="appsettings.Development.json" />
+    <Content Include="appsettings.json" />
+    <Content Include="ClientApp\.babelrc" />
+    <Content Include="ClientApp\.gitignore" />
+    <Content Include="ClientApp\app\index.html" />
+    <Content Include="ClientApp\app\main.js" />
+    <Content Include="ClientApp\app\plugins\storage-plugin.js" />
+    <Content Include="ClientApp\app\style\style.css" />
+    <Content Include="ClientApp\app\tags\admin.riot" />
+    <Content Include="ClientApp\app\tags\app.riot" />
+    <Content Include="ClientApp\app\tags\blog-roll.riot" />
+    <Content Include="ClientApp\app\tags\editor.riot" />
+    <Content Include="ClientApp\app\tags\post-display.riot" />
+    <Content Include="ClientApp\app\tags\post-list.riot" />
+    <Content Include="ClientApp\app\tags\weather.riot" />
+    <Content Include="ClientApp\package-lock.json" />
+    <Content Include="ClientApp\package.json" />
+    <Content Include="ClientApp\webpack.config.js" />
+    <Content Include="ClientApp\webpack.development.js" />
+    <Content Include="ClientApp\webpack.production.js" />
+    <Content Include="Directory.Build.props" />
+    <Content Include="Dockerfile" />
+    <Content Include="LICENSE" />
+    <Content Include="Properties\launchSettings.json" />
+    <Content Include="SmartlyDemo.RiotSPA.csproj" />
+    <Content Include="test_data.csv" />
   </ItemGroup>
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="SmartlyDemo.RiotSPA.Test" />
 	</ItemGroup>
-	
-  <ItemGroup>
-    <Content Remove="Contracts\Requests\GenerateMonthlyPaySlipReq.cs" />
-    <Content Remove="Contracts\Requests\GenerateMonthlyPaySlipReqCsv.cs" />
-    <Content Remove="Contracts\Responses\GenerateMonthlyPaySlipResp.cs" />
-    <Content Remove="Contracts\Responses\GenerateMonthlyPaySlipRespList.cs" />
-    <Content Remove="Domain\Interface\ITaxService.cs" />
-    <Content Remove="Domain\Model\Employee\Employee.cs" />
-    <Content Remove="Domain\Model\Salary\SalaryDetails.cs" />
-    <Content Remove="Domain\Model\Tax\Band.cs" />
-    <Content Remove="Domain\Model\Tax\TaxCalculator.cs" />
-    <Content Remove="Domain\Service\TaxService.cs" />
-    <Content Remove="Endpoints\GenerateMonthlyPaySlipCsvEndpoint.cs" />
-    <Content Remove="Endpoints\GenerateMonthlyPaySlipEndpoint.cs" />
-    <Content Remove="ExtensionMethods\StringExtensionMethods.cs" />
-    <Content Remove="Validators\GenerateMonthlyPaySlipValidator.cs" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Compile Include="Contracts\Requests\GenerateMonthlyPaySlipReqCsv.cs" />
-    <Compile Include="Contracts\Requests\GenerateMonthlyPaySlipReq.cs" />
-    <Compile Include="Contracts\Responses\GenerateMonthlyPaySlipRespList.cs" />
-    <Compile Include="Contracts\Responses\GenerateMonthlyPaySlipResp.cs" />
-    <Compile Include="Domain\Interface\ITaxService.cs" />
-    <Compile Include="Domain\Model\Employee\Employee.cs" />
-    <Compile Include="Domain\Model\Salary\SalaryDetails.cs" />
-    <Compile Include="Domain\Model\Tax\Band.cs" />
-    <Compile Include="Domain\Model\Tax\TaxCalculator.cs" />
-    <Compile Include="Domain\Service\TaxService.cs" />
-    <Compile Include="Endpoints\GenerateMonthlyPaySlipCsvEndpoint.cs" />
-    <Compile Include="Endpoints\GenerateMonthlyPaySlipEndpoint.cs" />
-    <Compile Include="ExtensionMethods\StringExtensionMethods.cs" />
-    <Compile Include="Mappers\GeneratePayRollSingleMapper.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Validators\GenerateMonthlyPaySlipValidator.cs" />
-  </ItemGroup>  
+  
 
   <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="5.1.0" />

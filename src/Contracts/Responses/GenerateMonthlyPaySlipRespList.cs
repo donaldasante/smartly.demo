@@ -5,6 +5,6 @@ namespace SmartlyDemo.RiotSPA.Contracts.Responses
 {
     public class GenerateMonthlyPaySlipRespList
     {
-        IEnumerable<GenerateMonthlyPaySlipResp> MonthlyPaySlips { get; set; }
+        public List<GenerateMonthlyPaySlipResp> MonthlyPaySlips { get; set; } = new List<GenerateMonthlyPaySlipResp>();
     }
 }

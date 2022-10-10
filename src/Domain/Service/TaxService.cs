@@ -40,7 +40,7 @@ namespace SmartlyDemo.RiotSPA.Domain.Service
 
             var monthlyIncomeTax = totalAnnualIncomeTax / 12;
             var netMonthlySalary = grossMonthlySalary - monthlyIncomeTax;
-            var superCalc = grossMonthlySalary * (salaryDetails.SuperRatePercentage / 100);
+            var superCalc = grossMonthlySalary * (salaryDetails.SuperRatePercentage);
 
             var calculatedMonthlyPeriod = OutputFirstandLastdayOfMonth(salaryDetails.MonthOfTheYearStr);
 

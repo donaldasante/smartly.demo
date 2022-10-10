@@ -21,5 +21,16 @@ namespace SmartlyDemo.RiotSPA.Test.IntegrationTests
             {
             });
         }
+        
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
+
+        public override async ValueTask DisposeAsync()
+        {
+            await base.DisposeAsync();
+        }
+        ~ApiWebFactory() => Dispose(false);
     }
 }

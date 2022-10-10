@@ -15,6 +15,7 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData\test_data_invalid_pay_period.csv" />
   </ItemGroup>
 
   <ItemGroup>

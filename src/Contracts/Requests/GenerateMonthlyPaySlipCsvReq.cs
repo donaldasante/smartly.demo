@@ -2,7 +2,7 @@
 
 namespace SmartlyDemo.RiotSPA.Contracts.Requests
 {
-    public class GenerateMonthlyPaySlipReqCsv
+    public class GenerateMonthlyPaySlipCsvReq
     {
         public IFormFile File1 { get; set; }
     }
