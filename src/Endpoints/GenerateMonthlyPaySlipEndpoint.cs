@@ -31,7 +31,20 @@ namespace SmartlyDemo.RiotSPA.Endpoints
         public override void Configure()
         {
             Verbs(Http.GET);
-            Routes("/api/employee/monthlypayslip");
+            Routes("/employee/monthlypayslip/view");
+            Description(b => b
+                .Accepts<GenerateMonthlyPaySlipReq>("application/json")
+                .Produces<GenerateMonthlyPaySlipResp>(200, "application/json+custom")
+                .Produces<ErrorResponse>(400, "application/json+problem")
+                .ProducesProblemFE<InternalErrorResponse>(500));
+            Summary(s => {
+                s.Summary = "Generates new payslip information";
+                s.Description = "Generates new payslip information given employee information";
+                s.ExampleRequest = new GenerateMonthlyPaySlipReq {  };
+                s.Responses[200] = "payslip generation successful";
+                s.Responses[400] = "Bad request. Check parameters";
+                s.Responses[500] = "Internal Server Error";
+            });
 
             AllowAnonymous();
         }
@@ -40,15 +53,7 @@ namespace SmartlyDemo.RiotSPA.Endpoints
         {
             _logger.LogDebug("Generating Payroll");
 
-            Employee employee = new Employee(
-                firstName: req.FirstName,
-                surname: req.Surname);
-
-
-            employee.SetSalaryDetails(
-                annualGrossSalary: req.AnnualGrossSalary,
-                superRatePercentage: req.SuperRatePercentage,
-                monthOfTheYear:req.MonthOfTheYear);
+            Employee employee = Map.ToEntity (req);
 
             _taxService.CalculateMonthlyPayslipForEmployee(employee.Salary);
 

@@ -43,7 +43,7 @@ namespace SmartlyDemo.RiotSPA.Test.IntegrationTests
 
                 formData.Add(content, "files", "test_data_invalid_pay_period.csv");
 
-                response = await _client.PostAsync("api/employee/monthlypayslip/csv", formData);
+                response = await _client.PostAsync("employee/monthlypayslip/csv", formData);
 
             }
 
@@ -67,7 +67,7 @@ namespace SmartlyDemo.RiotSPA.Test.IntegrationTests
                 content.Headers.ContentType = new MediaTypeHeaderValue(contentType ?? "text/csv");
 
                 formData.Add(content, "files", "test_data_valid.csv");
-                response = await _client.PostAsync("api/employee/monthlypayslip/csv", formData);
+                response = await _client.PostAsync("employee/monthlypayslip/csv", formData);
 
             }
 

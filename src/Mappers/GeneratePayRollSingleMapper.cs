@@ -20,5 +20,19 @@ namespace SmartlyDemo.RiotSPA.Mappers
                 PayPeriod = emp.Salary.MonthlyPeriodCalculated
             };
         }
+
+        public override Employee ToEntity(GenerateMonthlyPaySlipReq req)
+        {
+            Employee employee = new Employee(
+                firstName: req.FirstName,
+                surname: req.Surname);
+
+            employee.SetSalaryDetails(
+                annualGrossSalary: req.AnnualGrossSalary,
+                superRatePercentage: (req.SuperRatePercentage/100),
+                monthOfTheYear: req.MonthOfTheYear);
+
+            return employee;
+        }
     }
 }

@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace SmartlyDemo.RiotSPA.Endpoints
 {
-    public class GenerateMonthlyPaySlipCsvEndpoint : EndpointWithoutRequest<GenerateMonthlyPaySlipRespList,GeneratePayRollMultipleMapper>
+    public class GenerateMonthlyPaySlipCsvEndpoint : Endpoint<GenerateMonthlyPaySlipReqCsv,GenerateMonthlyPaySlipRespList, GeneratePayRollMultipleMapper>
     {
         private readonly ILogger<GenerateMonthlyPaySlipCsvEndpoint> _logger;
         private readonly ITaxService _taxService;
@@ -34,14 +34,21 @@ namespace SmartlyDemo.RiotSPA.Endpoints
         public override void Configure()
         {
             Verbs(Http.POST);
-
-            Routes("/api/employee/monthlypayslip/csv");
+            Summary(s => {
+                s.Summary = "Upload employees CSV file";
+                s.Description = "Upload employees CSV file and get back bulk monthly salary information";
+                s.ExampleRequest = new GenerateMonthlyPaySlipReq { };
+                s.Responses[200] = "payslip generation successful";
+                s.Responses[400] = "Bad request. Check parameters";
+                s.Responses[500] = "Internal Server Error";
+            });
+            Routes("/employee/monthlypayslip/csv");
             AllowAnonymous();
             AllowFileUploads();
             DontThrowIfValidationFails();
         }
 
-        public override async Task HandleAsync(CancellationToken ct)
+        public override async Task HandleAsync(GenerateMonthlyPaySlipReqCsv req,CancellationToken ct)
         {
             if (Files.Count > 0 && Files[0].ContentType == "text/csv")
             {
@@ -78,14 +85,16 @@ namespace SmartlyDemo.RiotSPA.Endpoints
 
                         var validator = new GenerateMonthlyPaySlipValidator();
                         //we need to manually validate csv input
-                        var validationResult = validator.Validate(new GenerateMonthlyPaySlipReq()
+                        var reqPaySlip = new GenerateMonthlyPaySlipReq()
                         {
                             FirstName = firstName,
                             Surname = lastName,
                             AnnualGrossSalary = annualGrossSalary,
                             SuperRatePercentage = superRatePercentage,
                             MonthOfTheYear = monthOfYear
-                        });
+                        };
+
+                        var validationResult = validator.Validate(reqPaySlip);
 
                         if (!validationResult.IsValid)
                         {
@@ -93,15 +102,10 @@ namespace SmartlyDemo.RiotSPA.Endpoints
                                        $"{lastName},{annualGrossSalary},{superRatePercentage}" +
                                        $",{monthOfYear} - {validationResult.Errors.FirstOrDefault()?.ErrorMessage}");
                         }
-                        
-                        var employee = new Employee(
-                            firstName: firstName,
-                            surname: lastName);
-                        
-                        employee.SetSalaryDetails(
-                            annualGrossSalary: annualGrossSalary,
-                            superRatePercentage: superRatePercentage,
-                            monthOfTheYear:monthOfYear);
+
+                        var generatePayRollSingleMapper = new GeneratePayRollSingleMapper();
+
+                        var employee = generatePayRollSingleMapper.ToEntity(reqPaySlip);
 
                         _taxService.CalculateMonthlyPayslipForEmployee(employee.Salary);
                         employees.Add(employee);

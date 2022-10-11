@@ -9,7 +9,6 @@ using SmartlyDemo.RiotSPA.Domain.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints();
-builder.Services.AddSwaggerDoc();
 builder.Services.AddSwaggerDoc(settings =>
 {
     settings.Title = "Smartly PayRoll Demo";
