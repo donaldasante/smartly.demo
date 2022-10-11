@@ -11,10 +11,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SmartlyDemo.RiotSPA.Validators;
+using System.Globalization;
+using Microsoft.AspNetCore.Http;
 
 namespace SmartlyDemo.RiotSPA.Endpoints
 {
-    public class GenerateMonthlyPaySlipCsvEndpoint : Endpoint<GenerateMonthlyPaySlipCsvReq,GenerateMonthlyPaySlipRespList,GeneratePayRollMultipleMapper>
+    public class GenerateMonthlyPaySlipCsvEndpoint : EndpointWithoutRequest<GenerateMonthlyPaySlipRespList,GeneratePayRollMultipleMapper>
     {
         private readonly ILogger<GenerateMonthlyPaySlipCsvEndpoint> _logger;
         private readonly ITaxService _taxService;
@@ -32,13 +34,14 @@ namespace SmartlyDemo.RiotSPA.Endpoints
         public override void Configure()
         {
             Verbs(Http.POST);
+
             Routes("/api/employee/monthlypayslip/csv");
             AllowAnonymous();
             AllowFileUploads();
             DontThrowIfValidationFails();
         }
 
-        public override async Task HandleAsync(GenerateMonthlyPaySlipCsvReq req,CancellationToken ct)
+        public override async Task HandleAsync(CancellationToken ct)
         {
             if (Files.Count > 0 && Files[0].ContentType == "text/csv")
             {
@@ -69,8 +72,8 @@ namespace SmartlyDemo.RiotSPA.Endpoints
 
                         var firstName = parseLine[0];
                         var lastName = parseLine[1];
-                        decimal.TryParse(parseLine[2], out var annualGrossSalary);
-                        decimal.TryParse(parseLine[3], out var superRatePercentage);
+                        decimal.TryParse(parseLine[2], NumberStyles.Currency, CultureInfo.InvariantCulture, out var annualGrossSalary);
+                        decimal.TryParse(parseLine[3], NumberStyles.Number, CultureInfo.InvariantCulture, out var superRatePercentage);
                         var monthOfYear = parseLine[4];
 
                         var validator = new GenerateMonthlyPaySlipValidator();
@@ -107,8 +110,10 @@ namespace SmartlyDemo.RiotSPA.Endpoints
                 
                 var monthlyPaySlips = Map.FromEntity(employees);
                 await SendAsync(monthlyPaySlips, cancellation: ct);
+                return;
             }
             await SendNoContentAsync(ct);
+            return;
         }
     }
 }

@@ -1,15 +1,20 @@
 global using FastEndpoints;
+using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmartlyDemo.RiotSPA.Domain.Interface;
 using SmartlyDemo.RiotSPA.Domain.Model.Tax;
 using SmartlyDemo.RiotSPA.Domain.Service;
-using VueCliMiddleware;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSpaStaticFiles(opt => opt.RootPath = "ClientApp/public");
 builder.Services.AddFastEndpoints();
+builder.Services.AddSwaggerDoc();
+builder.Services.AddSwaggerDoc(settings =>
+{
+    settings.Title = "Smartly PayRoll Demo";
+    settings.Version = "v1";
+});
 builder.Services.Configure<TaxCalculator>(builder.Configuration.GetSection("TaxCalculator"));
 builder.Services.AddScoped<ITaxService,TaxService>();
 
@@ -25,31 +30,11 @@ else
     app.UseHsts();
 }
 
-app.UseStaticFiles();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseSpaStaticFiles();
-}
-
 app.UseAuthorization();
 
 app.UseFastEndpoints();
-
-
-app.UseSpa(spa =>
-{
-    spa.Options.SourcePath = "ClientApp";
-
-    if (app.Environment.IsDevelopment())
-    {
-        spa.UseVueCli(
-            npmScript: (System.Diagnostics.Debugger.IsAttached || app.Environment.IsDevelopment()) ? "start" : null,
-            regex: "runtime modules",
-            forceKill: true
-         );
-    }
-});
+app.UseOpenApi();
+app.UseSwaggerUi3(s => s.ConfigureDefaults());
 
 app.Run();
 public partial class Program { }

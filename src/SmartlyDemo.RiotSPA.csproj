@@ -3,52 +3,20 @@
     <TargetFramework>net6.0</TargetFramework>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
 	<ContainerDevelopmentMode>Regular</ContainerDevelopmentMode>
-	<EnableStaticWebAssets>false</EnableStaticWebAssets>
-	<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <PropertyGroup>
-    <SpaRoot>ClientApp\</SpaRoot>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <RepositoryUrl>https://github.com/donaldasante/riotdotnet60sample.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/donaldasante/riotdotnet60sample</PackageProjectUrl>
     <Description>Smartly Demo</Description>
     <Product>Smartly Demo</Product>
-    <IncludeContentInPack>true</IncludeContentInPack>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-  
-
-  <ItemGroup>
-    <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Content Remove="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include=".dockerignore" />
     <Content Include=".gitignore" />
     <Content Include="appsettings.Development.json" />
     <Content Include="appsettings.json" />
-    <Content Include="ClientApp\.babelrc" />
-    <Content Include="ClientApp\.gitignore" />
-    <Content Include="ClientApp\app\index.html" />
-    <Content Include="ClientApp\app\main.js" />
-    <Content Include="ClientApp\app\plugins\storage-plugin.js" />
-    <Content Include="ClientApp\app\style\style.css" />
-    <Content Include="ClientApp\app\tags\admin.riot" />
-    <Content Include="ClientApp\app\tags\app.riot" />
-    <Content Include="ClientApp\app\tags\blog-roll.riot" />
-    <Content Include="ClientApp\app\tags\editor.riot" />
-    <Content Include="ClientApp\app\tags\post-display.riot" />
-    <Content Include="ClientApp\app\tags\post-list.riot" />
-    <Content Include="ClientApp\app\tags\weather.riot" />
-    <Content Include="ClientApp\package-lock.json" />
-    <Content Include="ClientApp\package.json" />
-    <Content Include="ClientApp\webpack.config.js" />
-    <Content Include="ClientApp\webpack.development.js" />
-    <Content Include="ClientApp\webpack.production.js" />
     <Content Include="Directory.Build.props" />
     <Content Include="Dockerfile" />
     <Content Include="LICENSE" />
@@ -60,49 +28,10 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="SmartlyDemo.RiotSPA.Test" />
 	</ItemGroup>
-  
 
   <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="5.1.0" />
+    <PackageReference Include="FastEndpoints.Swagger" Version="5.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="VueCliMiddleware" Version="3.1.2" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="ClientApp\" />
-  </ItemGroup>
-
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build">
-    <!-- Build Target:  Ensure Node.js is installed -->
-    <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
-    <Exec Command="npm --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js and npm are required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-  </Target>
-
-  <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Inputs="package.json" Outputs="packages-lock.json" Condition="!Exists('$(SpaRoot)node_modules')">
-    <!-- Build Target: Restore NPM packages using npm -->
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-  </Target>
-
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <!-- Build Target: Run webpack dist build -->
-    <Message Importance="high" Text="Running npm build..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
-
-    <!-- Include the newly-built files in the publish output -->
-    <ItemGroup>
-      <DistFiles Include="$(SpaRoot)public\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>%(DistFiles.Identity)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <ExcludeFromSingleFile>True</ExcludeFromSingleFile>
-      </ResolvedFileToPublish>
-    </ItemGroup>
-  </Target>  
 </Project>

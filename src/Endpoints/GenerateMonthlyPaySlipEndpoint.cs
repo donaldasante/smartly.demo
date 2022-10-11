@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using SmartlyDemo.RiotSPA.Contracts.Requests;
 using SmartlyDemo.RiotSPA.Contracts.Responses;
 using SmartlyDemo.RiotSPA.Domain.Interface;
@@ -31,6 +32,7 @@ namespace SmartlyDemo.RiotSPA.Endpoints
         {
             Verbs(Http.GET);
             Routes("/api/employee/monthlypayslip");
+
             AllowAnonymous();
         }
 

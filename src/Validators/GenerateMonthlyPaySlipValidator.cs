@@ -34,7 +34,7 @@ namespace SmartlyDemo.RiotSPA.Validators
 
             RuleFor(x => x.SuperRatePercentage)
             .NotEmpty()
-            .WithMessage("Please enter your super rate as a percentage")
+            .WithMessage("Please enter your super rate as a percentage. i.e 0.45 is 45%")
             .InclusiveBetween(0M, 0.5M)
             .WithMessage("Super Rate needs to be between 0 and 50%.");
 
