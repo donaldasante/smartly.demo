@@ -1,8 +1,6 @@
 using Alba;
 using Bogus;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Moq;
 using Newtonsoft.Json;
 using SmartlyDemo.RiotSPA.Contracts.Requests;
 using SmartlyDemo.RiotSPA.Contracts.Responses;
@@ -38,10 +36,6 @@ namespace SmartlyDemo.RiotSPA.Test.IntegrationTests
         [Fact]
         public async Task GenerateMonthlyPaySlipReq_Validation_On_FirstName_Null_Or_Empty_Should_Fail()
         {
-            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
-            var context = new DefaultHttpContext();
-            mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(context);
-
             GenerateMonthlyPaySlipReq request = _payrollRequestGenerator.Generate();
             request.FirstName = null;
             await Validate(request, false, 2);
