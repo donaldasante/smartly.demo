@@ -29,25 +29,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true"
-    },
-    "Docker-Prod": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true,
-      "useSSL": false,
-      "environmentVariables": {
-        //Will not work if set to Development
-        "ASPNETCORE_ENVIRONMENT": "Production"
-      }
-    },
-    "WSL": {
-      "commandName": "WSL2",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "distributionName": ""
     }
   }
 }

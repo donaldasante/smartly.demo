@@ -56,7 +56,7 @@ namespace SmartlyDemo.RiotSPA.Endpoints
             Employee employee = Map.ToEntity (req);
 
             _taxService.CalculateMonthlyPayslipForEmployee(employee.Salary);
-
+            
             Response = Map.FromEntity(employee);
             await SendAsync(Response, cancellation: ct);
         }

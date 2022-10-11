@@ -6,17 +6,18 @@ using Moq;
 using Newtonsoft.Json;
 using SmartlyDemo.RiotSPA.Contracts.Requests;
 using SmartlyDemo.RiotSPA.Contracts.Responses;
-using SmartlyDemo.RiotSPA.Validators;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using FastEndpoints;
 using Xunit;
 
-namespace SmartlyDemo.RiotSPA.Test.UnitTests
+namespace SmartlyDemo.RiotSPA.Test.IntegrationTests
 {
-    public class GenerateMonthlyPayslipValidatorTests
+    public class GenerateMonthlyPayslipValidatorTests: IClassFixture<WebAppFixture<Program>> 
     {
         private readonly HttpClient _client;
         private readonly IAlbaHost _host;
@@ -28,9 +29,10 @@ namespace SmartlyDemo.RiotSPA.Test.UnitTests
          .RuleFor(x => x.SuperRatePercentage, faker => faker.Random.Decimal(0M, 50M))
          .RuleFor(x => x.MonthOfTheYear, faker => faker.Date.Month().ToString());
 
-        public GenerateMonthlyPayslipValidatorTests()
+        public GenerateMonthlyPayslipValidatorTests(WebAppFixture<Program> apiWebFactory)
         {
-
+            _host = apiWebFactory.AlbaHost;
+            _client = _host.Server.CreateClient();
         }
 
         [Fact]
@@ -92,15 +94,7 @@ namespace SmartlyDemo.RiotSPA.Test.UnitTests
         public async Task GenerateMonthlyPaySlipReq_Validation_On_MonthOfTheYear()
         {
             GenerateMonthlyPaySlipReq request = _payrollRequestGenerator.Generate();
-
-            request.MonthOfTheYear = "";
-            await Validate(request, false, 2);
-
-            request.MonthOfTheYear = "Blah";
-            await Validate(request, false, 1);
-
-            request.MonthOfTheYear = "January";
-            await Validate(request, true, 0);
+            
 
             request.MonthOfTheYear = " February  ";
             await Validate(request, true, 0);
@@ -109,12 +103,37 @@ namespace SmartlyDemo.RiotSPA.Test.UnitTests
 
         private async Task Validate(GenerateMonthlyPaySlipReq req, bool isValid, int errorCount)
         {
-            var generateMonthlyPayslipValidator = new GenerateMonthlyPaySlipValidator();
 
-            var validatorResult = await generateMonthlyPayslipValidator.ValidateAsync(req).ConfigureAwait(false);
+            var json = JsonConvert.SerializeObject(req);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            validatorResult.IsValid.Should().Be(isValid);
-            validatorResult.Errors.Count.Should().Be(errorCount);
+            var httpReq = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(_client.BaseAddress + "employee/monthlypayslip/view"),
+                Content = data,
+            };
+            
+            var response = await _client.SendAsync(httpReq).ConfigureAwait(false);
+            
+            if (errorCount > 0)
+                response.StatusCode.Should().Be(HttpStatusCode.BadRequest);  
+            else
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.IsSuccessStatusCode.Should().Be(isValid);
+            
+
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                ErrorResponse errorResponse= JsonConvert.DeserializeObject<ErrorResponse>((await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
+                errorResponse.Errors.Values.FirstOrDefault()?.Count.Should().Be(errorCount);
+            }
+            else
+            {
+                GenerateMonthlyPaySlipResp responseObject= JsonConvert.DeserializeObject<GenerateMonthlyPaySlipResp>((await response.Content.ReadAsStringAsync().ConfigureAwait(false)));
+                responseObject.FirstName.Should().Be(req.FirstName);
+                responseObject.Surname.Should().Be(req.Surname);
+            }
         }
     }
 }

@@ -17,9 +17,7 @@
     <Content Include=".gitignore" />
     <Content Include="appsettings.Development.json" />
     <Content Include="appsettings.json" />
-    <Content Include="Directory.Build.props" />
     <Content Include="Dockerfile" />
-    <Content Include="LICENSE" />
     <Content Include="Properties\launchSettings.json" />
     <Content Include="SmartlyDemo.RiotSPA.csproj" />
     <Content Include="test_data.csv" />

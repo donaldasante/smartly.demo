@@ -32,7 +32,7 @@ namespace SmartlyDemo.RiotSPA.Domain.Model.Salary
 
             GrossAnnualSalary = grossAnnualSalary;
             SuperRatePercentage = superRatePercentage;
-            MonthOfTheYearStr = monthOfTheYearStr;
+            MonthOfTheYearStr = monthOfTheYearStr.Trim().ToLower();
         }
 
         public void SetMonthlySalaryDetails(
