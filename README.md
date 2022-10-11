@@ -8,7 +8,7 @@ Simulates the printing of monthly payslip for an employee and supports uploading
 - git
 
 ## Downloading code repository
-- Open powershell or cmd.Select or create a folder.
+- Open powershell or cmd. Select or create a folder.
 - `git clone https://github.com/donaldasante/smartly.demo.git`.
 
 ## Running the demo project
@@ -24,3 +24,11 @@ OR
 - Assuming all the requirements are met visual studio will
   1. Build the dot net core app.
   2. Start the application.
+  
+## Running the unit and integration tests
+- Navigate to the ./tests folder.
+- `dotnet test --logger "console;verbosity=detailed" .\SmartlyDemo.RiotSPA.Test`
+
+OR
+
+- Run the tests from Visual Studio.
